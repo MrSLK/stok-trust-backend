@@ -1,0 +1,11 @@
+.git
+.gitignore
+node_modules
+dist
+coverage
+.env
+.env.*
+key-file.json
+bitbucket-pipelines.yml
+Dockerfile
+*.log

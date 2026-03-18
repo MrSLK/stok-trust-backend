@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "stok-trust-backend"
+  },
+  "targets": {
+    "stok-trust-backend": {
+      "hosting": {
+        "mysite": [
+          "stok-trust-backend"
+        ]
+      }
+    }
+  }
+}
