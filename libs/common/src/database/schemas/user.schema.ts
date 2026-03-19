@@ -1,4 +1,4 @@
-import { StringManipulation } from "@common/utils/string-manipulation";
+import { StringManipulation } from "./../../utils/string-manipulation";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 
