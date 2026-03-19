@@ -22,8 +22,8 @@
     "resolveJsonModule": true,
     "paths": {
       "@app/*": ["src/app/*"],
-      "@common/*": ["libs/common/src/*"], // <-- map common lib
-      "@common/enums": ["libs/common/enums"] // <-- map enums folder
+      "@common/*": ["libs/common/src/*"],
+      "@common/enums": ["libs/common/enums"]
     }
   }
 }
