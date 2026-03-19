@@ -4,7 +4,9 @@ import { HydratedDocument } from "mongoose";
 
 const stringUtils = new StringManipulation();
 
-export type UserDocument = HydratedDocument<User>;
+export type UserDocument = HydratedDocument<User> & {
+  _id: string;
+};
 
 @Schema({ _id: false })
 class Profile {
@@ -17,7 +19,7 @@ class Profile {
   @Prop({ type: String, required: true })
   cellNumber: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: true, lowercase: true, unique: true })
   email: string;
 
   @Prop({ type: Boolean, default: false })
@@ -28,49 +30,21 @@ class Profile {
 
   @Prop({ type: String, default: null })
   passportNumber?: string;
-
-  @Prop({ type: String, default: null })
-  businessRegistrationNumber?: string;
-
-  @Prop({ type: [String], default: null })
-  secondaryEmails?: string[];
 }
 
 @Schema({ _id: false })
-class Password {
+class Services {
   @Prop({ type: String, required: true })
-  bcrypt: string;
+  password: string;
 }
 
 @Schema({ _id: false })
-export class Resume {
-  @Prop([String])
-  loginTokens: string[];
-}
+class Verifications {
+  @Prop({ type: Boolean, default: false })
+  email?: boolean;
 
-@Schema({ _id: false })
-export class Email {
-  @Prop({
-    type: String,
-    lowercase: true,
-    required: true
-  })
-  address: string;
-
-  @Prop()
-  verified: boolean;
-}
-
-@Schema({ _id: false })
-class Otp {
-  @Prop({ type: String })
-  code: string;
-
-  @Prop({ type: Date })
-  expiresIn: Date;
-
-  @Prop({ type: String, enum: ["ACCOUNT-RECOVERY-VERIFICATION", "EMAIL-VERIFICATION", "CELL-NUMBER-VERIFICATION"] })
-  purpose: string;
+  @Prop({ type: Boolean, default: false })
+  cellNumber?: boolean;
 }
 
 @Schema({ collection: "users", timestamps: true })
@@ -78,26 +52,20 @@ export class User {
   @Prop({ default: () => stringUtils.generateCustomID() })
   _id: string;
 
-  @Prop([Email])
-  emails: Email[];
+  @Prop({ type: Services })
+  services: Services;
 
-  @Prop()
+  @Prop({ type: Profile })
   profile: Profile;
-  
-  @Prop({ type: Password })
-  Password: Password;
 
-  @Prop({ default: false })
-  isDeleted: boolean;
+  @Prop({ type: Verifications })
+  verifications?: Verifications;
 
-  @Prop({ default: false })
-  isDisabled: boolean;
+  @Prop({ type: String, required: true, enum: ["admin", "user"] })
+  role: string;
 
-  @Prop()
-  roles: string[];
-
-  @Prop({ type: Otp, default: null })
-  otp?: Otp;
+  @Prop({ type: Boolean, default: true })
+  isAccountActive: boolean;
 
   @Prop({ type: Date, default: new Date() })
   createdAt: Date;
@@ -108,7 +76,3 @@ export class User {
 
 // Generate Mongoose schema from NestJS schema
 export const UserSchema = SchemaFactory.createForClass(User);
-
-UserSchema.virtual("id").get(function () {
-  return this._id;
-});
