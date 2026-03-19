@@ -49,7 +49,15 @@ const initializeSwagger = (app: INestApplication): void => {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("docs", app, document);
+
+  // Use CDN for Swagger UI assets to fix Vercel loading issues
+  const CSS_URL = "https://cdnjs.cloudflare.com";
+  const JS_URLS = ["https://cdnjs.cloudflare.com", "https://cdnjs.cloudflare.com"];
+
+  SwaggerModule.setup("docs", app, document, {
+    customCssUrl: CSS_URL,
+    customJs: JS_URLS
+  });
 };
 
 const initializeApp = async (app: INestApplication): Promise<void> => {
