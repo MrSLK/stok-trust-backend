@@ -50,13 +50,14 @@ const initializeSwagger = (app: INestApplication): void => {
 
   const document = SwaggerModule.createDocument(app, config);
 
-  // Use CDN for Swagger UI assets to fix Vercel loading issues
-  const CSS_URL = "https://cdnjs.cloudflare.com";
-  const JS_URLS = ["https://cdnjs.cloudflare.com", "https://cdnjs.cloudflare.com"];
-
   SwaggerModule.setup("docs", app, document, {
-    customCssUrl: CSS_URL,
-    customJs: JS_URLS
+    customSiteTitle: "API Specs",
+    customfavIcon: "https://avatars.githubusercontent.com",
+    customJs: [
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js"
+    ],
+    customCssUrl: ["https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css"]
   });
 };
 
