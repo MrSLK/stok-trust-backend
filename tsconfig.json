@@ -19,6 +19,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "paths": {
       "@app/*": ["src/app/*"],
       "@common/*": ["libs/common/src/*"], // <-- map common lib

@@ -1,4 +1,21 @@
-import "tsconfig-paths/register";
+import { register } from "tsconfig-paths";
+import * as tsConfig from "../tsconfig.json";
+
+// 1. Define the structure to satisfy the linter
+interface TsConfig {
+  compilerOptions: {
+    baseUrl: string;
+    paths: Record<string, string[]>;
+  };
+}
+
+// 2. Cast the imported JSON to your interface
+const config = tsConfig as unknown as TsConfig;
+
+register({
+  baseUrl: config.compilerOptions.baseUrl || "./",
+  paths: config.compilerOptions.paths
+});
 import { INestApplication, Logger, ValidationPipe, VersioningType } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
