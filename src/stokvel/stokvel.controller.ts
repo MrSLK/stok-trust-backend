@@ -5,10 +5,9 @@ import { JwtAuthGuard } from "../../libs/common/src/jwt-auth/guards/jwt-auth.gua
 import { SystemRole } from "./../../libs/common/src/enums/system-role.enum";
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam, ApiBody } from "@nestjs/swagger";
-
 import { StokvelService } from "./stokvel.service";
 import { StokvelDto } from "./dto/stokvel.dto";
-import { Roles } from "@common/decorators";
+import { Roles } from "./../../libs/common/src/decorators/users.decorator";
 
 @ApiTags("Stokvels")
 @Controller("stokvels")
