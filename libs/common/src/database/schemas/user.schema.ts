@@ -1,12 +1,11 @@
+import { SystemRole } from "./../../enums/system-role.enum";
 import { StringManipulation } from "./../../utils/string-manipulation";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 
 const stringUtils = new StringManipulation();
 
-export type UserDocument = HydratedDocument<User> & {
-  _id: string;
-};
+export type UserDocument = HydratedDocument<User>;
 
 @Schema({ _id: false })
 class Profile {
@@ -61,7 +60,7 @@ export class User {
   @Prop({ type: Verifications })
   verifications?: Verifications;
 
-  @Prop({ type: String, required: true, enum: ["admin", "user"] })
+  @Prop({ type: String, required: true, enum: SystemRole })
   role: string;
 
   @Prop({ type: Boolean, default: true })

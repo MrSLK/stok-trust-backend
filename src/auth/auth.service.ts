@@ -40,7 +40,13 @@ export class AuthService {
       role: signUpDto.role
     };
     const user = await this.usersService.create(userPayload);
-    const { accessToken, refreshToken } = await this.generateTokens(user.profile);
+    const { accessToken, refreshToken } = await this.generateTokens({
+      _id: user._id,
+      email: user.profile.email,
+      firstName: user.profile.firstName,
+      lastName: user.profile.lastName,
+      role: user.role
+    });
     return { user, accessToken, refreshToken };
   }
 
@@ -53,34 +59,27 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new BadRequestException("Invalid credentials");
     }
-    const { accessToken, refreshToken } = await this.generateTokens(user.profile);
+    const { accessToken, refreshToken } = await this.generateTokens({
+      _id: user._id,
+      email: user.profile.email,
+      firstName: user.profile.firstName,
+      lastName: user.profile.lastName,
+      role: user.role
+    });
     return { user, accessToken, refreshToken };
   }
 
   // -------- Helpers ---------
-  private async generateTokens(user: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    cellNumber: string;
-    idNumber?: string | null;
-    passportNumber?: string | null;
-  }) {
-    const accessToken = await this.jwtService.signAsync(
-      { user },
-      {
-        expiresIn: "48h",
-        secret: this.configService.get("jwt.jwtSecret")
-      }
-    );
+  private async generateTokens(user: { _id: string; email: string; firstName: string; lastName: string; role: string }) {
+    const accessToken = await this.jwtService.signAsync(user, {
+      expiresIn: "48h",
+      secret: this.configService.get("jwt.jwtSecret")
+    });
 
-    const refreshToken = await this.jwtService.signAsync(
-      { user },
-      {
-        expiresIn: "24h",
-        secret: this.configService.get("jwt.jwtSecret")
-      }
-    );
+    const refreshToken = await this.jwtService.signAsync(user, {
+      expiresIn: "24h",
+      secret: this.configService.get("jwt.jwtSecret")
+    });
 
     return { accessToken, refreshToken };
   }
