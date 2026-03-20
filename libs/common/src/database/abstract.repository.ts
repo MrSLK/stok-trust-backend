@@ -1,13 +1,13 @@
 import { Logger } from "@nestjs/common";
-import { Model, Document, UpdateQuery, QueryFilter, SortOrder } from "mongoose";
+import { Model, UpdateQuery, QueryFilter, SortOrder, HydratedDocument } from "mongoose";
 
 interface PaginateOptions {
-  page?: number; // Added page
+  page?: number;
   limit?: number;
   sort?: Record<string, SortOrder>;
 }
 
-export abstract class AbstractRepository<TDocument extends Document<any>> {
+export abstract class AbstractRepository<TDocument> {
   protected abstract readonly logger: Logger;
 
   constructor(protected readonly model: Model<TDocument>) {}
@@ -20,21 +20,20 @@ export abstract class AbstractRepository<TDocument extends Document<any>> {
     return this.model.findOne(filterQuery).exec();
   }
 
-  async create(document: Partial<TDocument>): Promise<TDocument> {
+  async create(document: Partial<TDocument>) {
     const createdDocument = new this.model(document);
-    return createdDocument.save();
+    const saved = await createdDocument.save();
+    return saved.toObject();
   }
 
-  async insertMany(documents: Partial<TDocument>[]): Promise<TDocument[]> {
-    return this.model.insertMany(documents) as unknown as Promise<TDocument[]>;
+  async insertMany(documents: Partial<TDocument>[]) {
+    const docs = await this.model.insertMany(documents);
+
+    return docs.map(doc => (doc as HydratedDocument<TDocument>).toObject());
   }
 
   async updateOne(filterQuery: QueryFilter<TDocument>, update: UpdateQuery<TDocument>): Promise<TDocument | null> {
-    return this.model
-      .findOneAndUpdate(filterQuery, update, {
-        new: true
-      })
-      .exec();
+    return this.model.findOneAndUpdate(filterQuery, update, { new: true }).exec();
   }
 
   async updateMany(filterQuery: QueryFilter<TDocument>, update: UpdateQuery<TDocument>): Promise<number> {
@@ -59,14 +58,22 @@ export abstract class AbstractRepository<TDocument extends Document<any>> {
   async findAndPaginate(
     filterQuery: QueryFilter<TDocument>,
     options: PaginateOptions
-  ): Promise<{ data: TDocument[]; meta: { total: number; page: number; size: number; totalPages: number } }> {
+  ): Promise<{
+    data: TDocument[];
+    meta: {
+      total: number;
+      page: number;
+      size: number;
+      totalPages: number;
+    };
+  }> {
     const page = options.page ?? 1;
     const size = options.limit ?? 10;
     const skip = (page - 1) * size;
     const sort = options.sort ?? { createdAt: -1 };
 
     const [data, total] = await Promise.all([
-      Promise.resolve(this.model.find(filterQuery).sort(sort).skip(skip).limit(size).lean(true).exec()) as Promise<TDocument[]>,
+      this.model.find(filterQuery).sort(sort).skip(skip).limit(size).exec(),
       this.model.countDocuments(filterQuery).exec()
     ]);
 
@@ -81,5 +88,17 @@ export abstract class AbstractRepository<TDocument extends Document<any>> {
         totalPages
       }
     };
+  }
+
+  async findById(id: string): Promise<HydratedDocument<TDocument> | null> {
+    return this.model.findById(id).exec();
+  }
+
+  async findByIdAndUpdate(id: string, update: UpdateQuery<TDocument>): Promise<HydratedDocument<TDocument> | null> {
+    return this.model.findByIdAndUpdate(id, update, { new: true }).exec();
+  }
+
+  async findByIdAndDelete(id: string): Promise<HydratedDocument<TDocument> | null> {
+    return this.model.findByIdAndDelete(id).exec();
   }
 }

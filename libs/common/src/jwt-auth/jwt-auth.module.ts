@@ -12,7 +12,7 @@ import { TypedConfigService } from "../config/typed-config.service";
     JwtModule.registerAsync({
       imports: [TypedConfigModule],
       inject: [TypedConfigService],
-      useFactory: async (configService: TypedConfigService) => ({
+      useFactory: (configService: TypedConfigService) => ({
         secret: configService.get("jwt.jwtSecret"),
         signOptions: { expiresIn: "7d" }
       })
@@ -21,4 +21,4 @@ import { TypedConfigService } from "../config/typed-config.service";
   providers: [JwtStrategy],
   exports: [JwtModule, PassportModule, JwtStrategy]
 })
-export class AuthModule {}
+export class JwtAuthModule {}
