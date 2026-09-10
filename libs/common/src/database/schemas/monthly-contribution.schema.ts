@@ -1,12 +1,7 @@
 import { StringManipulation } from "./../../utils/string-manipulation";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
-
-export enum ContributionStatus {
-  PENDING = "pending",
-  PAID = "paid",
-  OVERDUE = "overdue"
-}
+import { ContributionStatus } from "./../../enums/monthly-contribution.enum";
 
 const stringUtils = new StringManipulation();
 

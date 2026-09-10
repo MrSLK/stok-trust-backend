@@ -1,19 +1,25 @@
 import { StringManipulation } from "./../../utils/string-manipulation";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
+import { ClaimStatus } from "../../enums/claim-status.enum";
 
 const stringUtils = new StringManipulation();
-
-export enum ClaimStatus {
-  OPEN = "open",
-  UNDER_REVIEW = "under-review",
-  RESOLVED = "resolved",
-  REJECTED = "rejected"
-}
 
 export type ClaimDocument = HydratedDocument<Claim> & {
   _id: string;
 };
+
+@Schema({ _id: false })
+class RejectionDetails {
+  @Prop({ type: String, required: true })
+  reason: string;
+
+  @Prop({ type: String, ref: "users", required: true })
+  rejectedBy: string;
+
+  @Prop({ type: Date, default: new Date() })
+  rejectedAt: Date;
+}
 
 @Schema({ collection: "claims", timestamps: true })
 @Schema({ timestamps: true })
@@ -21,20 +27,26 @@ export class Claim {
   @Prop({ default: () => stringUtils.generateCustomID() })
   _id: string;
 
-  @Prop({ type: String, ref: "monthly-contributions", required: true })
-  MonthlyContributionId: string;
-
   @Prop({ type: String, ref: "stokvels", required: true })
   stokvelId: string;
 
   @Prop({ type: String, ref: "users", required: true })
-  uploadedBy: string;
+  createdBy: string;
 
-  @Prop({ required: true })
-  reason: string;
+  @Prop({ type: String, ref: "users", required: true })
+  defendantId: string;
+
+  @Prop({ type: String, required: true })
+  description: string;
+
+  @Prop({ type: String, required: true })
+  title: string;
 
   @Prop({ enum: ClaimStatus, default: ClaimStatus.OPEN })
   status: ClaimStatus;
+
+  @Prop({ type: RejectionDetails, default: null })
+  RejectionDetails?: RejectionDetails;
 
   @Prop({ type: Date, default: new Date() })
   createdAt: Date;

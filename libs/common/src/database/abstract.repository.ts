@@ -1,4 +1,5 @@
 import { Logger } from "@nestjs/common";
+import { PipelineStage } from "mongoose";
 import { Model, UpdateQuery, QueryFilter, SortOrder, HydratedDocument } from "mongoose";
 
 interface PaginateOptions {
@@ -100,5 +101,9 @@ export abstract class AbstractRepository<TDocument> {
 
   async findByIdAndDelete(id: string): Promise<HydratedDocument<TDocument> | null> {
     return this.model.findByIdAndDelete(id).exec();
+  }
+
+  async aggregate(stages: PipelineStage[]) {
+    return this.model.aggregate(stages);
   }
 }

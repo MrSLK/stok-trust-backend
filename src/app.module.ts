@@ -11,6 +11,7 @@ import { MonthlyContributionModule } from "./monthly-contribution/monthly-contri
 import { PaymentProofModule } from "./payment-proof/payment-proof.module";
 import { StokvelMembershipModule } from "./stokvel-membership/stokvel-membership.module";
 import { JwtAuthModule } from "./../libs/common/src/jwt-auth/jwt-auth.module";
+import { CredScoreModule } from "./cred-score/cred-score.module";
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { JwtAuthModule } from "./../libs/common/src/jwt-auth/jwt-auth.module";
     ClaimModule,
     MonthlyContributionModule,
     PaymentProofModule,
-    StokvelMembershipModule
+    StokvelMembershipModule,
+    CredScoreModule
   ],
   controllers: [AppController],
   providers: [AppService]

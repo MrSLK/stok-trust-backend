@@ -1,23 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import * as nodemailer from "nodemailer";
 
 @Injectable()
-export class EmailService {
+export class CommunicationService {
   private transporter: nodemailer.Transporter;
 
   constructor(private readonly configService: ConfigService) {
+    const auth = {
+      user: this.configService.get<string>("google.userEmail"),
+      pass: this.configService.get<string>("google.apiKey")
+    };
+
+    console.log("auth =>", auth);
     this.transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
-      auth: {
-        user: this.configService.get<string>("google.userEmail"),
-        pass: this.configService.get<string>("google.apiKey")
-      },
+      auth,
       tls: {
         rejectUnauthorized: false
       }

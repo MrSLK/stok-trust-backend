@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 
 @Injectable()
 export class StringManipulation {
-  camleToSpace(text: string): string {
+  camelToSpace(text: string): string {
     const camel2title = text
       .replace(/([A-Z])/g, match => ` ${match}`)
       .replace(/^./, match => match.toUpperCase())
@@ -113,16 +113,6 @@ export class StringManipulation {
     return transformedString;
   }
 
-  formatAddress(property: any) {
-    if (!property) {
-      return "";
-    }
-    const { unit, complex, addressShort } = property;
-    const address = `${unit ? `${unit} ` : ""}${complex ? `${complex}, ` : ""}${addressShort}`;
-
-    return address;
-  }
-
   retrieveAddressBreakdown(property: any) {
     if (!property) {
       return {};
@@ -136,7 +126,12 @@ export class StringManipulation {
   }
 
   humanify(str: string) {
-    return str ? `${str.split("-").map(this.capitilizeEachWord).join(" ")}` : "";
+    return str
+      ? `${str
+          .split("-")
+          .map(word => this.capitilizeEachWord(word))
+          .join(" ")}`
+      : "";
   }
 
   btoa(b: string) {
@@ -201,8 +196,8 @@ export class StringManipulation {
       .toString()
       .toLowerCase()
       .replace(/\s+/g, "-") // Replace spaces with -
-      .replace(/[^\w\-]+/g, "") // Remove all non-word chars
-      .replace(/\-\-+/g, "-") // Replace multiple - with single -
+      .replace(/[^\w-]+/g, "") // Remove all non-word chars
+      .replace(/--+/g, "-") // Replace multiple - with single -
       .replace(/^-+/, "") // Trim - from start of text
       .replace(/-+$/, ""); // Trim - from end of text
 

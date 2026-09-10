@@ -1,6 +1,7 @@
 import { StringManipulation } from "./../../utils/string-manipulation";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
+import { User } from "./user.schema";
 
 const stringUtils = new StringManipulation();
 
@@ -25,13 +26,23 @@ export class Stokvel {
   @Prop({ type: String, required: true })
   type: string;
 
+  @Prop({ type: String, required: true, unique: true })
+  inviteCode: string;
+
   @Prop({ type: Number, required: true })
   monthlyContribution: number;
 
   @Prop({ type: String, default: null })
   nasasaRegistrationNumber?: string;
 
-  @Prop({ type: String, ref: "users", required: true })
+  @Prop({
+    required: true,
+    type: [{ type: String, ref: User.name }],
+    validate: [(val: string[]) => val.length <= 3, "Max 3 admins allowed"]
+  })
+  adminIds: string[];
+
+  @Prop({ type: String, ref: User.name, required: true })
   createdBy: string;
 
   @Prop({ default: true })
