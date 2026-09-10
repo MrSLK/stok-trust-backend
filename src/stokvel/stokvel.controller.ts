@@ -21,7 +21,7 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam, ApiProduces, ApiBody } from "@nestjs/swagger";
-import { MemberRole } from "@common/enums/member-role.enum";
+import { MemberRole } from "../../libs/common/src/enums/member-role.enum";
 import { StokvelService } from "./stokvel.service";
 import { StokvelDto } from "./dto/stokvel.dto";
 import { Roles } from "./../../libs/common/src/decorators/users.decorator";

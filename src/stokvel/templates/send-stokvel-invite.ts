@@ -1,4 +1,4 @@
-import { baseEmailLayout } from "@common/email/email.layouts";
+import { baseEmailLayout } from "../../../libs/common/src/email/email.layouts";
 
 export const sendStokvelInviteTemplate = (opts: {
   firstName: string;

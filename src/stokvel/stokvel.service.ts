@@ -20,7 +20,7 @@ import PDFDocument from "pdfkit";
 import moment from "moment-timezone";
 import { sendStokvelInviteTemplate } from "./templates/send-stokvel-invite";
 import { ConfigService } from "@nestjs/config";
-import { ConfigProps } from "@common/config/config.interface";
+import { ConfigProps } from "../../libs/common/src/config/config.interface";
 
 @Injectable()
 export class StokvelService {
