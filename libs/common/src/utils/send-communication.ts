@@ -7,17 +7,14 @@ export class CommunicationService {
   private transporter: nodemailer.Transporter;
 
   constructor(private readonly configService: ConfigService) {
-    const auth = {
-      user: this.configService.get<string>("google.userEmail"),
-      pass: this.configService.get<string>("google.apiKey")
-    };
-
-    console.log("auth =>", auth);
     this.transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
-      auth,
+      auth: {
+        user: this.configService.get<string>("google.userEmail"),
+        pass: this.configService.get<string>("google.apiKey")
+      },
       tls: {
         rejectUnauthorized: false
       }

@@ -6,16 +6,10 @@ import { AuthenticatedUser } from "./../../libs/common/src/interfaces/authentica
 import { StokvelDto } from "./dto/stokvel.dto";
 import { StokvelMembershipService } from "src/stokvel-membership/stokvel-membership.service";
 import { CreateStokvelPolicyDto } from "./dto/create-stokvel-policy.dto";
-import {
-  StokvelPolicy,
-  StokvelPolicyDocument,
-  StokvelMembership,
-  StokvelMembershipDocument,
-  MonthlyContribution,
-  MonthlyContributionDocument,
-  StokvelInvite,
-  StokvelInviteDocument
-} from "@common/database";
+import { StokvelPolicy, StokvelPolicyDocument } from "./../../libs/common/src/database/schemas/stokvel-policy.schema";
+import { StokvelMembership, StokvelMembershipDocument } from "./../../libs/common/src/database/schemas/stokvel-membership.schema";
+import { MonthlyContribution, MonthlyContributionDocument } from "./../../libs/common/src/database/schemas/monthly-contribution.schema";
+import { StokvelInvite, StokvelInviteDocument } from "./../../libs/common/src/database/schemas/stokvel-invite.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Response } from "express";
