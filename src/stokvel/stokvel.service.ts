@@ -15,7 +15,7 @@ import { Model } from "mongoose";
 import { Response } from "express";
 import { randomBytes } from "crypto";
 import { CreateStokvelInviteDto } from "./dto/create-stokvel-invite.dto";
-import { CommunicationService } from "@common/utils/send-communication";
+import { CommunicationService } from "./../../libs/common/src/utils/send-communication";
 import PDFDocument from "pdfkit";
 import moment from "moment-timezone";
 import { sendStokvelInviteTemplate } from "./templates/send-stokvel-invite";

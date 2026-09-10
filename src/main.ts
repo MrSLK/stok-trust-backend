@@ -43,8 +43,8 @@ const initializeSwagger = (app: INestApplication): void => {
   const config = new DocumentBuilder()
     .addBearerAuth()
     .addSecurityRequirements("bearer")
-    .setTitle("Preferental Lease Management Service")
-    .setDescription("This is the API specs for preferental lease management service")
+    .setTitle("OPIS Stokvel management Service")
+    .setDescription("This is the API specs for StokTrust service")
     .setVersion("1.0")
     .build();
 

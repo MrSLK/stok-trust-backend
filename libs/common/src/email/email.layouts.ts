@@ -6,6 +6,8 @@ export interface BaseEmailLayoutProps {
 }
 
 export function baseEmailLayout({ body, title }: BaseEmailLayoutProps): string {
+  const bannerImageUrl =
+    "https://res.cloudinary.com/pwy-consulting/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Shop%20Now,w_0.5,y_0.18/v1789070712/Stokvel_email_banner_wiji8a.png";
   return `
     <!DOCTYPE html>
     <html>
@@ -151,7 +153,7 @@ export function baseEmailLayout({ body, title }: BaseEmailLayoutProps): string {
                 <!-- Banner -->
                 <tr>
                   <td class="mobile-table">
-                    <img src="https://preferental.com/wp-content/uploads/2024/10/10.jpg" alt="Preferental Banner" style="width: 100%; max-width: 600px; height: auto; display: block; border-radius: 8px 8px 0 0;">
+                    <img src="${bannerImageUrl}" alt="OPIS Banner" style="width: 100%; max-width: 600px; height: auto; display: block; border-radius: 8px 8px 0 0;">
                   </td>
                 </tr>
                 
@@ -163,7 +165,7 @@ export function baseEmailLayout({ body, title }: BaseEmailLayoutProps): string {
                 </tr>
                  <tr>
                   <td style="padding: 0px 30px 30px 30px; background-color: #ffffff;">
-                    <p>Best regards,<br/>The Preferental Team</p>
+                    <p>Best regards,<br/>The OPIS Team</p>
                   </td>
                 </tr>
                 
@@ -174,12 +176,12 @@ export function baseEmailLayout({ body, title }: BaseEmailLayoutProps): string {
                       This email and any attachments may contain confidential and/or privileged information. If you are not the intended recipient, please delete it immediately.
                     </p>
                     <p>
-                      You are receiving this email because you are a registered user of Preferental. For support, please contact us at
-                      <a href="mailto:admin@preferental.com">admin@preferental.com</a>.
+                      You are receiving this email because you are a registered user of OPIS. For support, please contact us at
+                      <a href="mailto:admin@opis-group.com">admin@opis-group.com</a>.
                     </p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;">© ${moment().format("YYYY")} Preferental. All rights reserved.</p>
+                    <p style="margin: 0 0 10px 0; font-size: 14px;">© ${moment().format("YYYY")} OPIS. All rights reserved.</p>
                     <p style="margin: 0 0 10px 0; font-size: 14px;">This is an automated message, please do not reply to this email.</p>
-                    <p style="margin: 0; font-size: 14px;">For support, contact us at <a href="mailto:admin@preferental.com" style="color: #1988fe; text-decoration: none; font-weight: 600;">admin@preferental.com</a>
+                    <p style="margin: 0; font-size: 14px;">For support, contact us at <a href="mailto:admin@opis-group.com" style="color: #1988fe; text-decoration: none; font-weight: 600;">admin@opis-group.com</a>
                     </a></p>
                   </td>
                 </tr>

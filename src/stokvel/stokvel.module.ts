@@ -10,8 +10,8 @@ import { StokvelRepository } from "./stokvel.repository";
 import { Module } from "@nestjs/common";
 import { StokvelService } from "./stokvel.service";
 import { StokvelController } from "./stokvel.controller";
-import { CommunicationService } from "@common/utils/send-communication";
 import { ConfigService } from "@nestjs/config";
+import { CommunicationService } from "./../../libs/common/src/utils/send-communication";
 
 @Module({
   imports: [
